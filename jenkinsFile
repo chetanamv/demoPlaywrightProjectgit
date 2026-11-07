@@ -40,7 +40,7 @@ pipeline {
                                     passwordVariable: 'PASSWORD'
                                 )
                             ])
-                            bat 'npx playwright test --shard=1/2 --reporter=blob'
+                           {bat 'npx playwright test --shard=1/2 --reporter=blob'} 
                         }
                     }
 
@@ -76,7 +76,7 @@ pipeline {
                                 )
                             ])
 
-                            {bat 'npx playwright test --shard=1/2 --reporter=blob'}
+                            {bat 'npx playwright test --shard=2/2 --reporter=blob'}
                         }
                     }
 
