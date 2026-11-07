@@ -5,6 +5,14 @@ pipeline {
     options {
         timestamps()
     }
+    // Application URL entered when starting the Jenkins build
+    parameters {
+        string(
+            name: 'BASE_URL',
+            defaultValue: 'https://www.automationexercise.com/',
+            description: 'Application URL'
+        )
+    }
 
     stages {
 
@@ -24,7 +32,14 @@ pipeline {
 
                             bat 'npm ci'
                             bat 'npx playwright install chromium'
-
+                            // Get email and password from Jenkins Credentials
+                            withCredentials([
+                                usernamePassword(
+                                    credentialsId: 'cf013a30-3502-4874-a5de-1a168ca4c62c',
+                                    usernameVariable: 'EMAIL',
+                                    passwordVariable: 'PASSWORD'
+                                )
+                            ])
                             bat 'npx playwright test --shard=1/2 --reporter=blob'
                         }
                     }
@@ -52,8 +67,16 @@ pipeline {
 
                             bat 'npm ci'
                             bat 'npx playwright install chromium'
+                            // Get email and password from Jenkins Credentials
+                            withCredentials([
+                                usernamePassword(
+                                    credentialsId: 'cf013a30-3502-4874-a5de-1a168ca4c62c',
+                                    usernameVariable: 'EMAIL',
+                                    passwordVariable: 'PASSWORD'
+                                )
+                            ])
 
-                            bat 'npx playwright test --shard=2/2 --reporter=blob'
+                            {bat 'npx playwright test --shard=1/2 --reporter=blob'}
                         }
                     }
 
